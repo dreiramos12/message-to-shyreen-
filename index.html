@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Message for Ms. Shy</title>
+    <style>
+        body { background-color: #ffe4e1; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'Georgia', serif; margin: 0; }
+        .container { text-align: center; }
+        .envelope { width: 300px; height: 200px; background: #ffb6c1; position: relative; margin: 0 auto; border-radius: 0 0 10px 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+        .envelope:focus { outline: 3px solid rgba(255,20,147,0.18); }
+        .envelope.open { transform: translateY(-12px) scale(1.02); box-shadow: 0 16px 30px rgba(0,0,0,0.15); }
+        .envelope::before { content: ''; position: absolute; top: -100px; left: 0; border-left: 150px solid transparent; border-right: 150px solid transparent; border-bottom: 100px solid #ffb6c1; filter: brightness(1.1); }
+        .btn { margin-top: 30px; padding: 12px 25px; background: #ff69b4; color: white; border: none; border-radius: 20px; cursor: pointer; font-size: 16px; transition: 0.3s; }
+        .btn:hover { background: #ff1493; transform: scale(1.05); }
+        #popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 500px; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 0 50px rgba(0,0,0,0.2); z-index: 10; max-height: 80vh; overflow-y: auto; text-align: left; line-height: 1.6; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="envelope" id="envelope" tabindex="0" role="button" aria-haspopup="dialog" aria-controls="popup" onclick="openLetter()"></div>
+    <button class="btn" id="openBtn" onclick="openLetter()">Open Message</button>
+</div>
+
+<div class="overlay" id="overlay"></div>
+<div id="popup">
+    <h3 style="color: #ff1493; text-align: center;">Merry Christmas, Ms. Shy!</h3>
+    <p>Hi Ms. Shy! First of all, I want to wish you a Merry Christmas and a Happy New Year. My wish for you is that all the pain in your heart fades away before 2025 ends. I hope you find true happiness and that blessings pour into your life as 2026 begins.</p>
+    <p>Secondly, I want to thank you. This year, you’ve been my inspiration in my academics; at the end of the day, I want to have achievements I can be proud to show you. I know I say this often, but I always want to remind you how much you inspire me to be patient. I’ve learned that waiting can be long, but it will be worth it in the end—just like the story of Jacob and Rachel in Genesis 29:20: <i>'So Jacob served seven years to get Rachel, but they seemed like only a few days to him because of his love for her.'</i> Or even Isaiah 60:22: <i>'When the time is right, I, the Lord, will make it happen.'</i> I know I’m not the first person to be determined to pursue you, but I want to give it everything I’ve got.</p>
+    <p>Lastly, I want to say sorry. I’m sorry for the promises I failed to keep and for the times I distracted you. I didn’t realize back then that you were facing family problems, and I regret not being there to help. When you told me about it before, I didn't know what to do, but my Mom and Mommy told me: 'You promised Shy you’d wait for her, so keep that promise until you both finish your studies.' So, I promised myself that even if you reject me many times, I’ll still be here waiting.</p>
+    <p>I’m also sorry I couldn’t make it up to you on your birthday—I couldn't even greet you then. But I promise that when I get back to Cagayan, I will make it up to you. Sorry if this message is long and if you’re tired, but I just wanted to say again. Merry Christmas and an advanced Happy New Year, Ms. Shy!</p>
+    <button class="btn" onclick="closeLetter()" style="width: 100%;">Close</button>
+</div>
+
+<script>
+    function openLetter() {
+        document.getElementById('popup').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+        var env = document.getElementById('envelope');
+        if (env) env.classList.add('open');
+        var closeBtn = document.querySelector('#popup .btn');
+        if (closeBtn) closeBtn.focus();
+        document.addEventListener('keydown', handleKeyDown);
+    }
+    function closeLetter() {
+        document.getElementById('popup').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+        var env = document.getElementById('envelope');
+        if (env) env.classList.remove('open');
+        document.removeEventListener('keydown', handleKeyDown);
+    }
+
+    // Close on Escape and support Enter/Space on envelope
+    function handleKeyDown(e) {
+        if (e.key === 'Escape') {
+            closeLetter();
+        }
+        var env = document.getElementById('envelope');
+        if (env && (e.key === 'Enter' || e.key === ' ')) {
+            // If envelope is focused, open on Enter/Space
+            if (document.activeElement === env) {
+                e.preventDefault();
+                openLetter();
+            }
+        }
+    }
+
+    // Make overlay clickable to close
+    document.getElementById('overlay').addEventListener('click', closeLetter);
+
+    // Add keyboard open support for envelope (in case onclick attribute isn't used)
+    document.getElementById('envelope').addEventListener('keydown', function(e){
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openLetter();
+        }
+    });
+</script>
+
+</body>
+</html>
